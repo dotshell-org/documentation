@@ -1,0 +1,9 @@
+{
+  "position": 1,
+  "label": "Raptor GTFS Pipeline",
+  "link": {
+    "type": "generated-index",
+    "title": "Raptor GTFS Pipeline Documentation",
+    "description": "Documentation complète pour le pipeline de traitement GTFS avec algorithmes RAPTOR"
+  }
+}
