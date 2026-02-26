@@ -48,6 +48,17 @@ const sidebars: SidebarsConfig = {
   ],
   apisSidebar: [
     'apis',
+    {
+      type: 'category',
+      label: 'Pelo API',
+      link: {
+        type: 'doc',
+        id: 'apis/pelo-api/pelo-api',
+      },
+      items: [
+        'apis/pelo-api/check-the-health-status-of-the-api',
+      ],
+    },
   ],
 };
 

@@ -4,7 +4,7 @@ Raptor-KT is optimized to deliver high performance on Android devices. This sect
 
 ## Official Benchmarks
 
-The following benchmarks were conducted on a Pixel 6 with Android 12, after JVM warmup.
+The following benchmarks were conducted on *Intel Core i7 11700, 32 Go RAM DDR4 2122 Mhz, Windows 11*, after JVM warmup.
 
 ### TCL Lyon — 14,386 stops, 331 routes, 19,523 trips (~14 MB)
 

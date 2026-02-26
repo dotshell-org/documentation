@@ -1,0 +1,28 @@
+{
+  "responses": {
+    "200": {
+      "description":"API is healthy and running normally",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type":"object",
+            "properties": {
+              "status": {
+                "type":"string",
+                "example":"ok"
+              },
+              "timestamp": {
+                "type":"string",
+                "format":"date-time",
+                "example":"2026-02-26T21:58:28.003Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "503": {
+      "description":"API is not healthy or experiencing issues"
+    }
+  }
+}

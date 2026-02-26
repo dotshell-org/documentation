@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Pelo API
+  description: A simple API mirror for real-time data of the Lyon TCL (public transport) network.
+  version: 1.0.0
+servers:
+  - url: https://api.dotshell.eu/pelo/v1
+    description: Production server
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Check the health status of the API
+      description: Verify that the API is running and healthy
+      responses:
+        '200':
+          description: API is healthy and running normally
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2023-11-15T14:30:00Z"
+                  version:
+                    type: string
+                    example: "1.0.0"
+        '503':
+          description: API is not healthy or experiencing issues
