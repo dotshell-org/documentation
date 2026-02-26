@@ -1,0 +1,9 @@
+{
+  "position": 2,
+  "label": "Raptor-KT",
+  "link": {
+    "type": "generated-index",
+    "title": "Raptor-KT Documentation",
+    "description": "Kotlin implementation of the RAPTOR algorithm for Android"
+  }
+}
