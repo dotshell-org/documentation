@@ -66,7 +66,7 @@ const config: Config = {
         config: {
           pelo: {
             specPath: 'examples/pelo-api.yaml',
-            outputDir: 'docs/apis/pelo-api',
+            outputDir: 'docs/apis',
             sidebarOptions: {
               groupPathsBy: 'tag',
             },
