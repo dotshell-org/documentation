@@ -84,6 +84,12 @@ const sidebars: SidebarsConfig = {
               label: 'Get traffic data status',
               className: 'api-method get',
             },
+            {
+              type: 'doc',
+              id: 'apis/pelo-api/websocket-traffic-alerts',
+              label: 'WebSocket - Real-time alerts',
+              className: 'api-method ws',
+            },
           ],
         },
         {
@@ -102,8 +108,15 @@ const sidebars: SidebarsConfig = {
               label: 'Get vehicle monitoring data status',
               className: 'api-method get',
             },
+            {
+              type: 'doc',
+              id: 'apis/pelo-api/sse-vehicle-positions',
+              label: 'SSE - Real-time positions stream',
+              className: 'api-method sse',
+            },
           ],
         },
+
       ],
     },
   ],
