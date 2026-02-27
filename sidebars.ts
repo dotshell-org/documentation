@@ -57,6 +57,10 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         'apis/pelo-api/check-the-health-status-of-the-api',
+        'apis/pelo-api/get-all-traffic-alerts',
+        'apis/pelo-api/get-traffic-data-status',
+        'apis/pelo-api/get-vehicle-monitoring-positions',
+        'apis/pelo-api/get-vehicle-monitoring-data-status',
       ],
     },
   ],

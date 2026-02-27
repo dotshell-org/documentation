@@ -14,6 +14,42 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: "category",
+      label: "Traffic",
+      items: [
+        {
+          type: "doc",
+          id: "apis/pelo-api/get-all-traffic-alerts",
+          label: "Get all traffic alerts",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "apis/pelo-api/get-traffic-data-status",
+          label: "Get traffic data status",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Vehicle Monitoring",
+      items: [
+        {
+          type: "doc",
+          id: "apis/pelo-api/get-vehicle-monitoring-positions",
+          label: "Get vehicle monitoring positions",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "apis/pelo-api/get-vehicle-monitoring-data-status",
+          label: "Get vehicle monitoring data status",
+          className: "api-method get",
+        },
+      ],
+    },
   ],
 };
 

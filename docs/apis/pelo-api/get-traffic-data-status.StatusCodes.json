@@ -1,0 +1,44 @@
+{
+  "responses": {
+    "200": {
+      "description": "Successfully retrieved traffic data status",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "type": "boolean",
+                "example": true
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "example": 132
+                  },
+                  "lastUpdated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2026-02-27T20:38:45.759Z"
+                  }
+                }
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2026-02-27T20:41:03.208Z"
+              },
+              "lastUpdated": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2026-02-27T20:38:45.759Z"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

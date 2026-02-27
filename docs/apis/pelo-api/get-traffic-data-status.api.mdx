@@ -1,8 +1,8 @@
 ---
-id: check-the-health-status-of-the-api
-title: "Check the health status of the API"
-description: "Verify that the API is running and healthy"
-sidebar_label: "Check the health status of the API"
+id: get-traffic-data-status
+title: "Get traffic data status"
+description: "Retrieves the status of cached traffic data (count and last update time)"
+sidebar_label: "Get traffic data status"
 hide_title: true
 hide_table_of_contents: true
 api: eJyVU8Fu2zAM/RWBpw1wYyddL74VxbAN6KGHbIcFOTA2E6uVJY2iswaG/32gknTt2h7mi21C7+nx8XEEwV2CegVfCZ10sC6gpdSwjWKDhxp+ENvtwUiHYqQjc333zdhkePDe+p1B35ouQw9QAFOKwSdKUI+wqCp9vaQ7wU+QDD9T+cA9Oqc8TfBCXhSOMTrboMLL+6QcI6Smox71Sw6RoIawuadGoIDIIRKLPSpIgjKkZ+eSsPU7KIAesY9OS2fxUwFie0qCfXwLsVV1AjW0KHShR1/QLKrF5cV8fjG/Ws4/1ZdVXVU/lXNPnOxR9fsa5rNqVsGUnwKuqst3ffNBnrwLbOgxElvyjfpnUxoogVL0JF1ooYYdZVdQOqihPCKhgESswqBejTCwUxtEYqrLEqOdtUFSR87NaCgjuVDu5/BvLO44tEOjP+ZIBtO6AOu3IbdqJTd2Ry5oYl7Br02y2nyOU2+ZA5ttYMOELptrWhQ0YZszd3sI3ixvbs2HOGycbYww+hQDy0fjSX4HfpjBM6/PhhYQQ5Ies/0ee5V001HzkFmPbphjSM5XvSF2/BvH/9uG08CFHqWMDq1XRdnu8TSS1Sl+unZdSKKVcdxgou/spknLvwbiA9SrdQF7ZIsbNXa1ngqFtsR5hg90UFObhqLOe49u0Jtf7Y7O6CkbXz4vYZr+AN1PWzk=
@@ -23,13 +23,13 @@ import Translate from "@docusaurus/Translate";
 <Heading
   as={"h1"}
   className={"openapi__heading"}
-  children={"Check the health status of the API"}
+  children={"Get traffic data status"}
 >
 </Heading>
 
 <MethodEndpoint
   method={"get"}
-  path={"/health"}
+  path={"/traffic/status"}
   context={"endpoint"}
   baseUrl={"https://api.dotshell.eu/pelo/v1"}
 >
@@ -37,7 +37,7 @@ import Translate from "@docusaurus/Translate";
 </MethodEndpoint>
 
 
-Verify that the API is running and healthy
+Retrieves the status of cached traffic data (count and last update time)
 
 <ParamsDetails
   parameters={undefined}
@@ -46,13 +46,13 @@ Verify that the API is running and healthy
 </ParamsDetails>
 
 <RequestSchema
-  {...require("./check-the-health-status-of-the-api.RequestSchema.json")}
+  {...require("./get-traffic-data-status.RequestSchema.json")}
 >
   
 </RequestSchema>
 
 <StatusCodes
-  {...require("./check-the-health-status-of-the-api.StatusCodes.json")}
+  {...require("./get-traffic-data-status.StatusCodes.json")}
 >
   
 </StatusCodes>

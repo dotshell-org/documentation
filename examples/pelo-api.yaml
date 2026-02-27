@@ -23,13 +23,303 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: healthy
+                    example: ok
                   timestamp:
                     type: string
                     format: date-time
-                    example: "2023-11-15T14:30:00Z"
-                  version:
-                    type: string
-                    example: "1.0.0"
+                    example: "2026-02-27T20:40:52.887Z"
         '503':
           description: API is not healthy or experiencing issues
+
+  /traffic/alerts:
+    get:
+      tags:
+        - Traffic
+      summary: Get all traffic alerts
+      description: Retrieves all cached traffic alerts for the Lyon TCL network
+      responses:
+        '200':
+          description: Successfully retrieved traffic alerts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cause:
+                          type: string
+                          example: "travaux"
+                        debut:
+                          type: string
+                          example: "2026-03-02 04:30:00"
+                        fin:
+                          type: string
+                          example: "2026-04-27 01:30:00"
+                        last_update_fme:
+                          type: string
+                          example: "2026-02-27 21:35:06"
+                        ligne_cli:
+                          type: string
+                          example: "D"
+                        ligne_com:
+                          type: string
+                          example: "D"
+                        listeobjet:
+                          type: string
+                          example: "D"
+                        message:
+                          type: string
+                          example: "A la station Monplaisir - Lumière, direction Gare de Vénissieux, l'ascenseur 752 sera en travaux à partir du 2 mars et pour une durée de 8 semaines."
+                        mode:
+                          type: string
+                          example: "Métro"
+                        n:
+                          type: integer
+                          example: 1
+                        niveauseverite:
+                          type: integer
+                          example: 30
+                        titre:
+                          type: string
+                          example: "Travaux ascenseur Monplaisir - A partir du 2 mars"
+                        type:
+                          type: string
+                          example: "Information"
+                        typeobjet:
+                          type: string
+                          example: "line"
+                        typeseverite:
+                          type: string
+                          example: "OTHER_EFFECT"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:41:03.208Z"
+
+  /traffic/status:
+    get:
+      tags:
+        - Traffic
+      summary: Get traffic data status
+      description: Retrieves the status of cached traffic data (count and last update time)
+      responses:
+        '200':
+          description: Successfully retrieved traffic data status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 132
+                      lastUpdated:
+                        type: string
+                        format: date-time
+                        example: "2026-02-27T20:38:45.759Z"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:41:03.208Z"
+                  lastUpdated:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:38:45.759Z"
+
+  /vehicle-monitoring/positions:
+    get:
+      tags:
+        - Vehicle Monitoring
+      summary: Get vehicle monitoring positions
+      description: Retrieves cached vehicle monitoring payload with real-time vehicle positions
+      responses:
+        '200':
+          description: Successfully retrieved vehicle monitoring data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      Siri:
+                        type: object
+                        properties:
+                          ServiceDelivery:
+                            type: object
+                            properties:
+                              ResponseTimestamp:
+                                type: string
+                                example: "2026-02-27T20:40:59.281920205Z"
+                              ProducerRef:
+                                type: object
+                                properties:
+                                  value:
+                                    type: string
+                                    example: "MDL"
+                              ResponseMessageIdentifier:
+                                type: object
+                                properties:
+                                  value:
+                                    type: string
+                                    example: "9a063fd1-ba64-4086-bc90-4c36468e03f9"
+                              MoreData:
+                                type: boolean
+                                example: false
+                              VehicleMonitoringDelivery:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    VehicleActivity:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          ValidUntilTime:
+                                            type: string
+                                            example: "2026-02-27T20:41:35.341389Z"
+                                          VehicleMonitoringRef:
+                                            type: object
+                                            properties:
+                                              value:
+                                                type: string
+                                                example: "ActIV:Vehicle:Bus:3064:LOC"
+                                          MonitoredVehicleJourney:
+                                            type: object
+                                            properties:
+                                              LineRef:
+                                                type: object
+                                                properties:
+                                                  value:
+                                                    type: string
+                                                    example: "ActIV:Line::C9:SYTRAL"
+                                              DirectionRef:
+                                                type: object
+                                                properties:
+                                                  value:
+                                                    type: string
+                                                    example: "inbound"
+                                              FramedVehicleJourneyRef:
+                                                type: object
+                                                properties:
+                                                  DataFrameRef:
+                                                    type: object
+                                                    properties:
+                                                      value:
+                                                        type: string
+                                                        example: "ActIV:DataFrame::2026.02.27:LOC"
+                                                  DatedVehicleJourneyRef:
+                                                    type: string
+                                                    example: "ActIV:VehicleJourney::909_C9A-062A_x00A3__00901011:LOC"
+                                              DestinationRef:
+                                                type: object
+                                                properties:
+                                                  value:
+                                                    type: string
+                                                    example: "ActIV:StopArea:SP:50210:SYTRAL"
+                                              DataSource:
+                                                type: string
+                                                example: "TCL"
+                                              VehicleLocation:
+                                                type: object
+                                                properties:
+                                                  Longitude:
+                                                    type: number
+                                                    example: 4.901175
+                                                  Latitude:
+                                                    type: number
+                                                    example: 45.74918
+                                              Bearing:
+                                                type: integer
+                                                example: 292
+                                              Delay:
+                                                type: string
+                                                example: "PT17M1S"
+                                              VehicleStatus:
+                                                type: string
+                                                example: "IN_PROGRESS"
+                                              VehicleRef:
+                                                type: object
+                                                properties:
+                                                  value:
+                                                    type: string
+                                                    example: "ActIV:Vehicle:Bus:3064:LOC"
+                                              MonitoredCall:
+                                                type: object
+                                                properties:
+                                                  AimedArrivalTime:
+                                                    type: string
+                                                    example: "2026-02-27T20:20:04Z"
+                                                  AimedDepartureTime:
+                                                    type: string
+                                                    example: "2026-02-27T20:20:00Z"
+                                                  StopPointRef:
+                                                    type: object
+                                                    properties:
+                                                      value:
+                                                        type: string
+                                                        example: "ActIV:StopArea:SP:47426:SYTRAL"
+                                                  Order:
+                                                    type: integer
+                                                    example: 5
+                                          RecordedAtTime:
+                                            type: string
+                                            example: "2026-02-27T20:40:35.341389Z"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:41:05.424Z"
+
+  /vehicle-monitoring/status:
+    get:
+      tags:
+        - Vehicle Monitoring
+      summary: Get vehicle monitoring data status
+      description: Retrieves the status of cached vehicle monitoring data (count and last update time)
+      responses:
+        '200':
+          description: Successfully retrieved vehicle monitoring data status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 191
+                      lastUpdated:
+                        type: string
+                        format: date-time
+                        example: "2026-02-27T20:40:59.357Z"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:41:05.424Z"
+                  lastUpdated:
+                    type: string
+                    format: date-time
+                    example: "2026-02-27T20:40:59.357Z"

@@ -20,9 +20,6 @@
           }
         }
       }
-    },
-    "503": {
-      "description":"API is not healthy or experiencing issues"
     }
   }
 }
