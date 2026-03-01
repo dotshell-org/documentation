@@ -2,50 +2,99 @@
 
 Raptor-KT is optimized to deliver high performance on Android devices. This section covers benchmarks, optimizations, and best practices.
 
-## Official Benchmarks
+## JMH Benchmarks
 
-The following benchmarks were conducted on *Intel Core i7 11700, 32 Go RAM DDR4 2122 Mhz, Windows 11*, after JVM warmup.
+Rigorous benchmarks using [JMH](https://github.com/openjdk/jmh) (Java Microbenchmark Harness) with 1000 random seeded query pairs per dataset (stop coordinates from GTFS).
 
-### TCL Lyon — 14,386 stops, 331 routes, 19,523 trips (~14 MB)
+**System:** Windows 11, Java HotSpot 21.0.9, 16 CPU cores
 
-| Route | Standard Search | Arrive-By Search |
-|:-----------|------------------:|-------------------:|
-| Perrache → Vaulx-en-Velin La Soie | 0.36 ms | 1.48 ms |
-| Bellecour → Part-Dieu | 0.20 ms | 0.90 ms |
-| Gare de Vaise → Oullins Centre | 0.28 ms | 1.60 ms |
-| Perrache → Cuire | 0.33 ms | 2.34 ms |
-| Laurent Bonnevay → Gorge de Loup | 0.28 ms | 2.10 ms |
-| Part-Dieu → Bellecour | 0.18 ms | 0.97 ms |
+**JMH config:** 3 forks, 10 warmup × 1 s, 20 measurement × 1 s, mode `avgt`
 
-*100 iterations (standard), 10 iterations (arrive-by)*
+### Forward Routing
 
-### RTM Marseille — 2,754 stops, 243 routes, 43,590 trips (~10 MB)
+| Dataset | Avg (μs/op) | ms/op | Error | GC alloc (B/op) |
+|:--------|------------:|------:|------:|----------------:|
+| RTM Marseille | 261 | 0.26 | ± 1.00 | 4,216 |
+| Finland | 4,624 | 4.6 | ± 75.7 | 3,222 |
+| IDFM Paris | 5,157 | 5.2 | ± 186.8 | 1,586 |
 
-| Route | Standard Search | Arrive-By Search |
-|:-----------|------------------:|-------------------:|
-| Vieux-Port → La Rose | 0.13 ms | 0.54 ms |
-| Castellane → Bougainville | 0.18 ms | 0.58 ms |
-| Gare St Charles → Rond-Point du Prado | 0.37 ms | 2.39 ms |
-| La Timone → Joliette | 0.21 ms | 1.03 ms |
-| La Rose → Castellane | 0.11 ms | 0.64 ms |
-| Noailles → Sainte-Marguerite Dromel | 0.03 ms | 0.18 ms |
-| Bougainville → La Fourragère | 0.30 ms | 1.64 ms |
+### Arrive-By Routing
 
-*100 iterations (standard), 10 iterations (arrive-by)*
+| Dataset | Avg (μs/op) | ms/op | Error | GC alloc (B/op) |
+|:--------|------------:|------:|------:|----------------:|
+| RTM Marseille | 1,636 | 1.6 | ± 9.08 | 3,120 |
+| Finland | 31,599 | 31.6 | ± 4,241 | 640 |
+| IDFM Paris | 31,986 | 32.0 | ± 2,542 | 1,298 |
 
-### IDFM Paris — 53,944 stops, 3,744 routes, 377,225 trips (~142 MB)
+### Arrive-By / Forward Ratio
 
-| Route | Standard Search | Arrive-By Search |
-|:-----------|------------------:|-------------------:|
-| Gare de Lyon → Gare du Nord | 2.38 ms | 19.89 ms |
-| Gare Saint-Lazare → Montparnasse Bienvenue | 3.01 ms | 20.35 ms |
-| Charles de Gaulle - Étoile → Nation | 1.17 ms | 8.33 ms |
-| République → Bastille | 0.86 ms | 4.22 ms |
-| Gare du Nord → Gare Montparnasse | 6.35 ms | 42.98 ms |
-| Bastille → Gare Saint-Lazare | 2.95 ms | 29.73 ms |
-| Glacière → Bonne Nouvelle | 7.19 ms | 51.55 ms |
+| Dataset | Forward (μs) | Arrive-By (μs) | Ratio |
+|:--------|-------------:|---------------:|------:|
+| RTM Marseille | 261 | 1,636 | 6.3× |
+| Finland | 4,624 | 31,599 | 6.8× |
+| IDFM Paris | 5,157 | 31,986 | 6.2× |
 
-*50 iterations (standard), 5 iterations (arrive-by)*
+The consistent **~6.4× overhead** for arrive-by matches the expected ~7 forward calls per arrive-by query (120 min window / 60 s binary search steps).
+
+### Network Loading Time
+
+Cold load: binary deserialization + Network construction. SingleShotTime, 5 forks.
+
+| Dataset | Avg (ms) | Error |
+|:--------|--------:|------:|
+| RTM Marseille | 6.7 | ± 0.42 |
+| IDFM Paris | 71.4 | ± 3.0 |
+| Finland | 83.3 | ± 3.9 |
+
+All datasets load in **< 100 ms** — fast enough for seamless app cold start.
+
+### Memory / GC Allocation
+
+Per-query allocation measured via JMH GC profiler (SingleShotTime, 5 forks, 500 iterations).
+
+| Dataset | Avg time (μs) | GC alloc (B/op) | GC alloc rate |
+|:--------|-------------:|----------------:|--------------:|
+| RTM Marseille | 545 | 5,136 | 8.4 MB/s |
+| IDFM Paris | 6,608 | 16,133 | 1.7 MB/s |
+
+Peak allocation of 16 KB/op — well within acceptable range for Android (16 ms frame budget).
+
+## Comparison with OpenTripPlanner v2
+
+To put these numbers in perspective, here is a comparison with [OpenTripPlanner v2](https://www.opentripplanner.org/) on the same RTM Marseille dataset.
+
+:::note
+OTP is benchmarked end-to-end via HTTP/GraphQL, which includes street graph access/egress, transfer optimization, itinerary filtering, and HTTP + JSON serialization — not just the RAPTOR algorithm. A direct algorithm-to-algorithm comparison would require instrumenting OTP's internal RAPTOR timing.
+:::
+
+**OTP system:** Same machine, Java 21, graph size 267 MB
+
+**OTP JMH config:** 3 forks, 5 warmup × 2 s, 20 measurement × 2 s, mode `avgt`
+
+### RTM Marseille — Routing Performance
+
+| Engine | Forward (ms) | Arrive-By (ms) |
+|:-------|------------:|---------------:|
+| **raptor-kt** (pure algorithm) | 0.26 | 1.6 |
+| **OTP v2** (end-to-end HTTP) | 245.3 | 196.0 |
+
+raptor-kt's pure RAPTOR algorithm is **~943× faster** than OTP's full end-to-end pipeline on forward routing. This is expected — OTP includes many additional layers beyond the core routing algorithm.
+
+### RTM Marseille — Startup / Loading Time
+
+| Engine | Loading time | Data size |
+|:-------|------------:|---------:|
+| **raptor-kt** (binary deserialization) | 6.7 ms | ~10 MB |
+| **OTP v2** (graph load + server start) | 15,964 ms (~16 s) | 267 MB |
+
+raptor-kt loads its network **~2,400× faster** than OTP starts its server — making it suitable for on-demand mobile cold starts where OTP requires a persistent server process.
+
+### Key Takeaways
+
+- **raptor-kt** measures pure RAPTOR algorithm time via direct API calls (0.3–5 ms depending on network size).
+- **OTP v2** measures real-world end-to-end query time including HTTP overhead, street routing, and response serialization (~196–245 ms).
+- raptor-kt loads in **milliseconds**, enabling instant cold starts on mobile. OTP requires a **~16 s server startup**, designed for persistent server deployment.
+- The comparison highlights the overhead of a full-stack routing server vs. an embedded algorithm library.
 
 ## Performance Optimization
 
