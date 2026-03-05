@@ -12,7 +12,7 @@ const config: Config = {
   },
 
   url: 'https://dotshell.eu',
-  baseUrl: '/documentation/',
+  baseUrl: '/documentation',
 
   organizationName: 'dotshell-org',
   projectName: 'documentation',
