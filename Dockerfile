@@ -10,20 +10,7 @@ RUN yarn build
 
 FROM nginx:alpine
 
-COPY --from=build /app/build /usr/share/nginx/html
-COPY <<'EOF' /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-
-    location /documentation/ {
-        alias /usr/share/nginx/html/;
-        try_files $uri $uri/ $uri.html /documentation/index.html;
-    }
-
-    location = / {
-        return 301 /documentation/;
-    }
-}
-EOF
+COPY --from=build /app/build /usr/share/nginx/html/documentation
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
