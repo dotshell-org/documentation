@@ -5,14 +5,14 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Dotshell Documentation',
   tagline: 'Be Evil',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo.svg',
 
   future: {
     v4: true,
   },
 
   url: 'https://dotshell.eu',
-  baseUrl: '/documentation',
+  baseUrl: '/',
 
   organizationName: 'dotshell-org',
   projectName: 'documentation',
@@ -28,7 +28,7 @@ const config: Config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid', 'docusaurus-theme-openapi-docs'],
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -37,19 +37,9 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/dotshell-org/documentation/tree/main/',
-          docItemComponent: '@theme/ApiItem',
+          routeBasePath: '/',
         },
-        blog: {
-          showReadingTime: true,
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          editUrl: 'https://github.com/dotshell-org/documentation/tree/main/',
-        },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -57,24 +47,6 @@ const config: Config = {
     ],
   ],
 
-  plugins: [
-    [
-      'docusaurus-plugin-openapi-docs',
-      {
-        id: 'api',
-        docsPluginId: 'classic',
-        config: {
-          pelo: {
-            specPath: 'examples/pelo-api.yaml',
-            outputDir: 'docs/apis',
-            sidebarOptions: {
-              groupPathsBy: 'tag',
-            },
-          },
-        },
-      },
-    ],
-  ],
 
   themeConfig: {
     mermaid: {
@@ -93,18 +65,18 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'librariesSidebar',
-          position: 'left',
-          label: 'Libraries',
+          href: 'https://github.com/dotshell-org',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'apisSidebar',
-          position: 'left',
-          label: 'APIs',
+          href: 'https://www.instagram.com/dotshell.eu/',
+          position: 'right',
+          className: 'header-instagram-link',
+          'aria-label': 'Instagram',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+
         {
           href: 'https://dotshell.eu',
           label: 'Website',
@@ -114,60 +86,8 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Libraries',
-              to: '/docs/libraries',
-            },
-            {
-              label: 'APIs',
-              to: '/docs/apis',
-            },
-          ],
-        },
-        {
-          title: 'Social',
-          items: [
-            {
-              label: 'Instagram',
-              href: 'https://www.instagram.com/dotshell.eu/'
-            },
-            {
-              label: 'YouTube',
-              href: 'https://www.youtube.com/@dotshell-eu'
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/dotshelleu'
-            },
-            {
-              label: 'Threads',
-              href: 'https://www.threads.com/@dotshell.eu'
-            }
-          ]
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/dotshell-org',
-            },
-            {
-              label: 'Website',
-              href: 'https://dotshell.eu',
-            }
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Dotshell — Built with Docusaurus.`,
+      links: [],
+      copyright: `Copyright © ${new Date().getFullYear()} Dotshell`,
     },
     prism: {
       theme: prismThemes.github,
